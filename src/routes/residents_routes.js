@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { getResidents, getResident, createResident, deleteResident, editResident} from "../controllers/residents_controller.js";
+import { getResidents, getResiden, createResident, deleteResident, editResident} from "../controllers/residents_controller.js";
 
 const router = Router()
 
@@ -8,7 +8,7 @@ router.get('/residents', getResidents)
 
 router.get('/residents/:id', getResident)
 
-router.post('/residents', createResident)
+router.post('/resident', createResident)
 
 router.delete('/residents/:id', deleteResident)
 
