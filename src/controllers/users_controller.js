@@ -1,5 +1,5 @@
 import { pool } from "../db.js"
-import { getUserModel, createUserModel, deleteUserModl, editUserModel} from "../models/users_model.js"
+import { getUserModel, createUserModel, deleteUserModel, editUserModel} from "../models/users_model.js"
 
 export const getUsers = async (req, res) => {
     try {
@@ -15,7 +15,7 @@ export const getUser = async (req, res) => {
     try {
         const { id } = req.params
         const rows = await getUserModel(id)
-        if (rows.length === 0) {
+        if (!rows||rows.length === 0) {
             return res.status(404).json({ message: "User not Found" })
         }
         res.json(rows)
@@ -25,7 +25,7 @@ export const getUser = async (req, res) => {
     }
 }
 
-export const createUsers = async (req, res) => {
+export const createUser = async (req, res) => {
     try {
         const { first_name, last_name, email, password, phone, fk_id_role, status } = req.body
         const rows = await createUserModel(first_name, last_name, email, password, phone, fk_id_role, status)

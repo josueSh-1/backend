@@ -1,5 +1,5 @@
 import { pool } from "../db.js"
-import { getResidentModel, createResidentModel, deleteResidentModel, editResidentModel} from "../model/residents_model.js"
+import { getResidentModel, createResidentModel, deleteResidentModel, editResidentModel} from "../models/residents_model.js"
 
 
 export const getResidents = async (req, res) => {
@@ -39,7 +39,7 @@ export const createResident = async (req, res) => {
 
 export const deleteResident = async (req, res) => {
     try {
-        const { id } = req
+        const { id } = req.params
         const rowCount = await deleteResidentModel(id)
         if (rowCount == 0) {
             return res.status(404).json({ message: "Resident not Found" })

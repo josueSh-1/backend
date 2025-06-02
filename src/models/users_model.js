@@ -1,12 +1,12 @@
 import { pool } from "../db.js"
 
 export const getUserModel = async (id)=>{
-    const  { rows } = await pool.query('SELECT FROM users WHERE id_user = $1', [id])
+    const  { rows } = await pool.query('SELECT * FROM users WHERE id_user = $1', [id])
     return rows[0]
 }
 
 export const createUserModel = async (first_name, last_name, email, password, phone, fk_id_role, status)=>{
-    const {rows} = await pool.query('INSERT INTO user (first_name, last_name, email, password, phone, fk_id_role, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [first_name, last_name, email, password, phone, fk_id_role, status])
+    const {rows} = await pool.query('INSERT INTO users (first_name, last_name, email, password, phone, fk_id_role, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [first_name, last_name, email, password, phone, fk_id_role, status])
     return rows
 }
 
