@@ -1,10 +1,9 @@
-import { pool } from "../db.js"
-import { getResidentModel, createResidentModel, deleteResidentModel, editResidentModel} from "../models/residents_model.js"
+import { getResidentModel, createResidentModel, deleteResidentModel, editResidentModel, getResidentsModel} from "../models/residents_model.js"
 
 
 export const getResidents = async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM residents')
+        const rows = await getResidentsModel()
         return res.json(rows)
     } catch (error) {
         console.error(error)

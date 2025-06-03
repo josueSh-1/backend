@@ -1,4 +1,10 @@
 import { pool } from "../db.js"
+
+export const getResidentsModel= async()=>{
+    const { rows } = await pool.query('SELECT * FROM residents')
+    return rows
+}
+
 export const getResidentModel = async(id)=>{
     const {rows} = await pool.query('SELECT * FROM residents WHERE id_resident = $1', [id])
     return rows[0]

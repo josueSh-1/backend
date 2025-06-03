@@ -1,9 +1,8 @@
-import { pool } from "../db.js"
-import { getUserModel, createUserModel, deleteUserModel, editUserModel} from "../models/users_model.js"
+import { getUserModel, createUserModel, deleteUserModel, editUserModel, getUsersModel} from "../models/users_model.js"
 
 export const getUsers = async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM users')
+        const rows = await getUsersModel()
         res.json(rows)
     } catch (error) {
         console.error(error)
