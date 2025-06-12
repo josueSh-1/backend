@@ -20,7 +20,13 @@ export const deleteUserModel =  async (id)=>{
     return rowCount
 }
 
-export const editUserModel = async(first_name, last_name, email, password, phone, fk_id_role, status, id)=>{
-    const {rows} = await pool.query('UPDATE users SET first_name=$1, last_name=$2, email=$3, password=$4, phone=$5, fk_id_role=$6, status=$7 WHERE id_user = $8 RETURNING *',[first_name, last_name, email, password, phone, fk_id_role, status, id])
+export const editUserModel = async(data, id)=>{
+    const keys = Object.keys(data)
+    const values = Object.values(data)
+    if(keys.length===0){
+        return null
+    }
+    const setQuery = keys.map((key,idx)=>`${key} = $${idx+1}`).join(', ')
+    const {rows} = await pool.query(`UPDATE users SET ${setQuery} WHERE id_user = $${keys.length + 1} RETURNING *`, [...values, id])
     return rows[0]
 }
