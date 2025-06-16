@@ -1,4 +1,5 @@
 import { getUserModel, createUserModel, deleteUserModel, editUserModel, getUsersModel} from "../models/users_model.js"
+
 export const getUsers = async (req, res, next) => {
   try {
     const rows = await getUsersModel()
