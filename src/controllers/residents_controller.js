@@ -1,7 +1,7 @@
 import { getResidentModel, createResidentModel, deleteResidentModel, editResidentModel, getResidentsModel} from "../models/residents_model.js"
 
 
-export const getResidents = async (res, next) => {
+export const getResidents = async (req, res, next) => {
   try {
     const rows = await getResidentsModel()
     res.json(rows)

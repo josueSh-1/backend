@@ -30,3 +30,8 @@ export const editUserModel = async(data, id)=>{
     const {rows} = await pool.query(`UPDATE users SET ${setQuery} WHERE id_user = $${keys.length + 1} RETURNING *`, [...values, id])
     return rows[0]
 }
+
+export const getEmailUserModel = async (email) =>{
+    const {rows} = await pool.query('SELECT * FROM users WHERE email = $1', [email])
+    return rows[0]
+}
