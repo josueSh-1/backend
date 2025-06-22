@@ -1,7 +1,9 @@
+import 'dotenv/config'
 import jwt from 'jsonwebtoken';
-import { createUserModel, getUserEmailModel } from "../models/users_model.js"
+import { jwtSecret } from '../middlewares/jwtS.js';
+import { createUserModel, getEmailUserModel } from "../models/users_model.js"
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = jwtSecret;
 
 // REGISTRO
 export const registerUser = async (req, res, next) => {
@@ -25,7 +27,7 @@ export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await getUserByEmailModel(email);
+    const user = await getEmailUserModel(email);
     if (!user || user.password !== password) {
       return res.status(401).json({ message: "Invalid credentials" });
     }

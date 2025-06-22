@@ -6,7 +6,7 @@ export const usersSchema = z.object({
     email: z.string().email('Invalid Email'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
     phone: z.string().min(6, 'Phone is required'),
-    fk_id_role: z.number().int().default('3').positive('Invalid id Role'),
+    fk_id_role: z.number().int().default('3'),
     status: z.enum(['active','inactive']).optional().default('active')
 })
 

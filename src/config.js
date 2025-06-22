@@ -5,3 +5,4 @@ export const Db_Host= "localhost"
 export const Db_Password= "2004"
 export const Db_DataBase= "Bd_Geriatric"
 export const Db_Port= 5432
+export const JWT_SECRET="jjddsshh2004"
