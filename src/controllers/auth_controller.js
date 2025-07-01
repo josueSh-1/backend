@@ -1,9 +1,10 @@
 import 'dotenv/config'
 import jwt from 'jsonwebtoken';
-import { jwtSecret } from '../middlewares/jwtS.js';
+import bcrypt from 'bcrypt';
 import { createUserModel, getEmailUserModel } from "../models/users_model.js"
+import { createError, errors } from '../utils/error.js';
 
-const JWT_SECRET = jwtSecret;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // REGISTRO
 export const registerUser = async (req, res, next) => {
@@ -11,11 +12,16 @@ export const registerUser = async (req, res, next) => {
     const { first_name, last_name, email, password, phone, fk_id_role, status } = req.body
 
     // Verificar si el correo ya está registrado
-    const emailMatch = await getUserEmailModel(email)
+    const emailMatch = await getEmailUserModel(email)
     if (emailMatch) {
-      return res.status(400).json({ message: "Email already registered" })
+      throw createError(errors.emailExists);
     }
-    const rows = await createUserModel(first_name,last_name,email,password,phone,fk_id_role,status)
+
+    // Hashear la contraseña antes de guardar
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const rows = await createUserModel(first_name, last_name, email, hashedPassword, phone, fk_id_role, status)
     res.status(201).json(rows[0])
   } catch (error) {
     next(error)
@@ -28,8 +34,14 @@ export const loginUser = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await getEmailUserModel(email);
-    if (!user || user.password !== password) {
-      return res.status(401).json({ message: "Invalid credentials" });
+    if (!user) {
+      throw createError(errors.invalidCredentials);
+    }
+
+    // Comparar la contraseña ingresada con el hash guardado
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      throw createError(errors.invalidCredentials);
     }
 
     // Generar JWT

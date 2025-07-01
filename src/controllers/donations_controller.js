@@ -1,4 +1,5 @@
 import { getDonationsModel,getDonationModel,createDonationModel } from "../models/donations_model.js"
+import { createError, errors } from '../utils/error.js';
 
 export const getDonations=async(req,res,next)=>{
     try{
@@ -14,9 +15,7 @@ export const getDonation = async(req,res,next)=>{
         const {id}=req.params
         const rows =  await getDonationModel(id)
         if(!rows){
-            const error = new Error('Donation not found')
-            error.status = 404
-            throw error
+            throw createError(errors.donationNotFound);
         }
         return res.json(rows[0])
     }catch(error){

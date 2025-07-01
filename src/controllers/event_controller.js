@@ -1,4 +1,5 @@
 import { createEventModel, deleteEventModel, editEventModel, getEventModel, getEventsModel } from "../models/event_model.js"
+import { createError, errors } from '../utils/error.js';
 
 export const getEvents = async (req, res, next) => {
   try {
@@ -15,9 +16,7 @@ export const getEvent = async (req, res, next) => {
     const row = await getEventModel(id)
 
     if (!row) {
-      const error = new Error("Event not found")
-      error.status = 404
-      throw error
+      throw createError(errors.eventNotFound);
     }
     res.json(row)
   } catch (error) {
@@ -41,9 +40,7 @@ export const deleteEvent = async (req, res, next) => {
     const rowCount = await deleteEventModel(id)
 
     if (rowCount === 0) {
-      const error = new Error("Event not found")
-      error.status = 404
-      throw error
+      throw createError(errors.eventNotFound);
     }
     res.json({ message: "Event delete" })
   } catch (error) {
@@ -57,9 +54,7 @@ export const editEvent = async (req, res, next) => {
     const row = await editEventModel(req.body,id)
 
     if (!row) {
-      const error = new Error("Event not found")
-      error.status = 404
-      throw error
+      throw createError(errors.eventNotFound);
     }
     res.json(row)
   } catch (error) {
