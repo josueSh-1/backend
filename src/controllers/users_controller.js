@@ -31,11 +31,6 @@ export const createUser = async (req, res, next) => {
     // Hashear la contraseña antes de guardar
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    // Validar si el email ya existe (opcional, si no lo haces en otro lado)
-    // const emailMatch = await getEmailUserModel(email);
-    // if (emailMatch) {
-    //   throw createError(errors.emailExists);
-    // }
     const rows = await createUserModel(first_name, last_name, email, hashedPassword, phone, fk_id_role, status)
     res.status(201).json(rows[0])
   } catch (error) {
