@@ -4,7 +4,7 @@ import { getResidents, getResident, createResident, deleteResident, editResident
 import { validateSchema } from "../middlewares/validateSchema.js";
 import { residentSchema, residentUpdateSchema } from "../schemas/residents_schema.js";
 import { authMiddleware } from "../middlewares/auth.js";
-import { isNurseOrAdmin } from "../middlewares/roles_auth.js";
+import { isNurseOrAdmin, isSomeone } from "../middlewares/roles_auth.js";
 
 const router = Router()
 

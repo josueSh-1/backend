@@ -8,16 +8,15 @@ import { isAdmin } from "../middlewares/roles_auth.js";
 
 const router = Router()
 
-router.use(authMiddleware, isAdmin)
 
-router.get('/users', getUsers)
+router.get('/users',authMiddleware,isAdmin, getUsers)
 
-router.get('/users/:id', getUser)
+router.get('/users/:id',authMiddleware,isAdmin, getUser)
 
-router.post('/users', validateSchema(usersSchema),createUser)
+router.post('/users',authMiddleware,isAdmin, validateSchema(usersSchema),createUser)
 
-router.delete('/users/:id', deleteUser)
+router.delete('/users/:id', authMiddleware,isAdmin,deleteUser)
 
-router.put('/users/:id', validateSchema(userUpdateSchema),editUser)
+router.put('/users/:id', authMiddleware,isAdmin,validateSchema(userUpdateSchema),editUser)
 
 export default router;

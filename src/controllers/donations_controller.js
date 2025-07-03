@@ -1,4 +1,5 @@
-import { getDonationsModel,getDonationModel,createDonationModel } from "../models/donations_model.js"
+import { tr } from "zod/v4/locales";
+import { getDonationsModel,getDonationModel,createDonationModel, donationDetailed } from "../models/donations_model.js"
 import { createError, errors } from '../utils/error.js';
 
 export const getDonations=async(req,res,next)=>{
@@ -25,8 +26,18 @@ export const getDonation = async(req,res,next)=>{
 
 export const createDonation = async(req,res,next)=>{
     try{
-        const {donor_name, amount, donation_date, email, phone, fk_id_user}=req.body
-        const rows =  await createDonationModel(donor_name, amount, donation_date, email, phone, fk_id_user)
+        const {amount, donation_date, fk_id_user}=req.body
+        const rows =  await createDonationModel(amount, donation_date,fk_id_user)
+        return res.json(rows)
+    }catch(error){
+        console.log('error',error)
+        next(error)
+    }
+}
+
+export const donationDetailedCtr = async(req,res,next)=>{
+    try{
+        const rows = await donationDetailed()
         return res.json(rows)
     }catch(error){
         next(error)
