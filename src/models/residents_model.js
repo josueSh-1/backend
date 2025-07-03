@@ -10,8 +10,8 @@ export const getResidentModel = async(id)=>{
     return rows[0]
 }
 
-export const createResidentModel = async(first_name, last_name, birthdate, admission_date, bio)=>{
-    const {rows} = await pool.query('INSERT INTO residents (first_name, last_name, birthdate, admission_date, bio) VALUES ($1, $2, $3, $4, $5) RETURNING *', [first_name, last_name, birthdate, admission_date, bio])
+export const createResidentModel = async(first_name, last_name, birthdate, admission_date, bio, photo)=>{
+    const {rows} = await pool.query('INSERT INTO residents (first_name, last_name, birthdate, admission_date, bio, photo) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *', [first_name, last_name, birthdate, admission_date, bio,photo])
     return rows
 }
 
